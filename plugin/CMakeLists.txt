@@ -37,31 +37,43 @@ juce_add_plugin(${PROJECT_NAME}
 # Sets the source files of the plugin project.
 target_sources(${PROJECT_NAME}
         PRIVATE
+            # generated
+            # <files contains=.cpp contains=.h>
             source/PluginEditor.cpp
             source/PluginProcessor.cpp
             include/PluginEditor.h
             include/PluginProcessor.h
+            # </files>
         )
 
 # Sets the include directories of the plugin project.
 target_include_directories(${PROJECT_NAME}
         PUBLIC
             include
+            # generated
+            # <directories contains=include/>
+            # </directories>
 
         PRIVATE
             source
+            # generated
+            # <directories contains=source/>
+            # </directories>
         )
 
 # Extra binary assets. First argument is the name of the static library. SOURCES is followed by a list of source files (wav, images, etc). Conversion happening during build. Optional NAMESPACE argument for the binary data class.
-juce_add_binary_data(AppBinaryData SOURCES
-        Assets/pluginIcon.jpg
+juce_add_binary_data(AudioPluginBinaryData SOURCES
+            # generated
+            # <files contains=assets/>
+            assets/pluginIcon.jpg
+            # </assets>
         )
 
 # Links to all necessary dependencies. The present ones are recommended by JUCE.
 # If you use one of the additional modules, like the DSP module, you need to specify it here.
 target_link_libraries(${PROJECT_NAME}
         PRIVATE
-            AppBinaryData
+            AudioPluginBinaryData # assets binary data
             juce::juce_audio_basics
             juce::juce_audio_utils
             juce::juce_audio_devices
