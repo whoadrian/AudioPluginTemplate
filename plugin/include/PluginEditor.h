@@ -6,7 +6,7 @@
 class WhoaAudioPluginEditor final : public juce::AudioProcessorEditor
 {
 public:
-    explicit WhoaAudioPluginEditor (WhoaAudioPluginProcessor&);
+    explicit WhoaAudioPluginEditor (WhoaAudioPluginProcessor&, juce::AudioProcessorValueTreeState& vts);
     ~WhoaAudioPluginEditor() override;
 
     //==============================================================================
@@ -14,9 +14,16 @@ public:
     void resized() override;
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
+	// This reference is provided as a quick way for your editor to
+	// access the processor object that created it.
 	WhoaAudioPluginProcessor& processorRef;
+	
+	juce::AudioProcessorValueTreeState& valueTreeState;
+	
+	typedef juce::AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
+	juce::Label gainLabel;
+	juce::Slider gainSlider;
+	std::unique_ptr<SliderAttachment> gainAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WhoaAudioPluginEditor)
 };
