@@ -1,4 +1,5 @@
 import os.path
+import pathlib
 
 
 # py_generated=directories : finds all directories within a root_dir and its subdirectory
@@ -6,7 +7,7 @@ import os.path
 # requires: dir=name (subdirectory)
 def find_directories(root_dir: str, gen_params: dict, generated_lines: list):
     target_dir = f"{root_dir}/{gen_params['dir']}"
-    for d in [d for d in os.listdir(f"{target_dir}") if not os.path.isfile(f"{target_dir}/{d}")]:
+    for d in [d for d in os.listdir(f"{target_dir}") if not os.path.isfile(f"{target_dir}/{d}") if not d.startswith('.')]:
         generated_lines.append(f"{target_dir}/{d}".replace(root_dir+"/", ""))
         gen_params['dir'] += "/"+d
         find_directories(root_dir, gen_params, generated_lines)
@@ -21,7 +22,7 @@ def find_files(root_dir: str, gen_params: dict, generated_lines: list):
     extensions = ()
     if 'extensions' in gen_params:
         extensions = gen_params["extensions"].split("|")
-    for f in [f for f in os.listdir(f"{target_dir}")]:
+    for f in [f for f in os.listdir(f"{target_dir}") if not f.startswith('.')]:
         if os.path.isfile(f"{target_dir}/{f}"):
             file_extension = f.split('.')[1]
             if len(extensions) > 0:
@@ -35,9 +36,7 @@ def find_files(root_dir: str, gen_params: dict, generated_lines: list):
 
 
 # main parsing method, pass in the path of the CMakeLists.txt file with tags
-def update_cmake_file(file_path):
-    print("Updating CMake file at: " + file_path)
-
+def update_cmake_file(file_path: str):
     # output lines for file
     out_lines = []
 
@@ -79,26 +78,31 @@ def update_cmake_file(file_path):
             # invoke the correct generation method
             generated_type = gen_params["py_generated"]
 
-            print("Generating.... " + generated_type + " " + file_path + " " + gen_params["dir"])
-
             if generated_type == "directories":
                 find_directories(os.path.dirname(file_path), gen_params, generated_lines)
             elif generated_type == "files":
                 find_files(os.path.dirname(file_path), gen_params, generated_lines)
+
+            print(f"{file_path} . ln {len(out_lines)} . {ln[i:]}")
 
             # get indentation
             indent_space = ""
             for s in ln:
                 if s == " ":
                     indent_space += " "
+                else:
+                    break
 
             # append generated lines to output
             for gen_ln in generated_lines:
                 out_lines.append(indent_space + gen_ln)
+                print(f"{file_path} . ln {len(out_lines)} . . .  {gen_ln}")
 
     # replace file contents
-    with open(file_path, 'w') as file:
-        file.writelines(out_lines)
+    if len(out_lines) > 0:
+        with open(file_path, 'w') as file:
+            for ln in out_lines:
+                file.write(ln + "\n")
 
 
 # generates cmake include folders, files, assets for juce
@@ -111,4 +115,14 @@ def update_cmake_file(file_path):
 # to detect where to make changes
 # see methods at beginning of file for available tag types
 if __name__ == '__main__':
-    update_cmake_file("./../plugin/CMakeLists.txt")
+    print("UPDATING")
+    print("...")
+
+    # check all CMakeLists.txt files of this repo
+    count = 0
+    for path in pathlib.Path("../").rglob("CMakeLists.txt"):
+        update_cmake_file(path.__str__())
+        count += 1
+
+    print("...")
+    print(f"DONE, checked {count} CMakeLists.txt files")

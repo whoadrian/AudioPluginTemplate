@@ -43,8 +43,8 @@ target_sources(${PROJECT_NAME}
             # /py_generated
 
             # py_generated=files dir=source extensions=h|cpp
-            source/PluginEditor.cpp
             source/PluginProcessor.cpp
+            source/PluginEditor.cpp
             # /py_generated
         )
 
@@ -89,7 +89,6 @@ target_compile_definitions(${PROJECT_NAME}
             JUCE_USE_CURL=0
             JUCE_VST3_CAN_REPLACE_VST2=0
             JUCE_SILENCE_XCODE_15_LINKER_WARNING=1
-            JUCE_DEBUG=0
         )
 
 # Silences some deprecation warnings that (hopefully) will be fixed in a future release of JUCE.
