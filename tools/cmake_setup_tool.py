@@ -41,6 +41,7 @@ def update_cmake_file(file_path: str):
     out_lines = []
 
     # open for read
+    is_generated = False
     with open(file_path, 'r') as file:
         in_lines = file.readlines()
         generated_block = False
@@ -68,6 +69,7 @@ def update_cmake_file(file_path: str):
 
             # we're inside a generated block, generate lines
             generated_block = True
+            is_generated = True
             generated_lines = []
 
             # parse generation parameters, key/value pairs
@@ -99,10 +101,12 @@ def update_cmake_file(file_path: str):
                 print(f"{file_path} . ln {len(out_lines)} . . .  {gen_ln}")
 
     # replace file contents
-    if len(out_lines) > 0:
+    if is_generated and len(out_lines) > 0:
         with open(file_path, 'w') as file:
             for ln in out_lines:
                 file.write(ln + "\n")
+            print(f"{file_path} UPDATED")
+            print("...")
 
 
 # generates cmake include folders, files, assets for juce
