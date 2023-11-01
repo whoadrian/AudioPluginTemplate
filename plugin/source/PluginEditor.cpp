@@ -9,7 +9,7 @@ WhoaAudioPluginEditor::WhoaAudioPluginEditor (WhoaAudioPluginProcessor& p, juce:
 	addAndMakeVisible (gainLabel);
 	
 	addAndMakeVisible (gainSlider);
-	gainAttachment.reset (new SliderAttachment (valueTreeState, "gain", gainSlider));
+	gainAttachment.reset (new juce::AudioProcessorValueTreeState::SliderAttachment (valueTreeState, "gain", gainSlider));
 	
     juce::ignoreUnused (processorRef);
     // Make sure that before the constructor has finished, you've set the

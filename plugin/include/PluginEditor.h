@@ -18,12 +18,13 @@ private:
 	// access the processor object that created it.
 	WhoaAudioPluginProcessor& processorRef;
 	
+	// parameters
 	juce::AudioProcessorValueTreeState& valueTreeState;
 	
-	typedef juce::AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
+	// gain
 	juce::Label gainLabel;
 	juce::Slider gainSlider;
-	std::unique_ptr<SliderAttachment> gainAttachment;
+	std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WhoaAudioPluginEditor)
 };
