@@ -37,36 +37,35 @@ juce_add_plugin(${PROJECT_NAME}
 # Sets the source files of the plugin project.
 target_sources(${PROJECT_NAME}
         PRIVATE
-            # generated
-            # <files contains=.cpp contains=.h>
-            source/PluginEditor.cpp
-            source/PluginProcessor.cpp
+            # py_generated=files dir=include extensions=h|cpp
             include/PluginEditor.h
             include/PluginProcessor.h
-            # </files>
+            # /py_generated
+
+            # py_generated=files dir=source extensions=h|cpp
+            source/PluginEditor.cpp
+            source/PluginProcessor.cpp
+            # /py_generated
         )
 
 # Sets the include directories of the plugin project.
 target_include_directories(${PROJECT_NAME}
         PUBLIC
             include
-            # generated
-            # <directories contains=include/>
-            # </directories>
+            # py_generated=directories dir=include
+            # /py_generated
 
         PRIVATE
             source
-            # generated
-            # <directories contains=source/>
-            # </directories>
+            # py_generated=directories dir=source
+            # /py_generated
         )
 
 # Extra binary assets. First argument is the name of the static library. SOURCES is followed by a list of source files (wav, images, etc). Conversion happening during build. Optional NAMESPACE argument for the binary data class.
 juce_add_binary_data(AudioPluginBinaryData SOURCES
-            # generated
-            # <files contains=assets/>
+            # py_generated=files dir=assets
             assets/pluginIcon.jpg
-            # </assets>
+            # /py_generated
         )
 
 # Links to all necessary dependencies. The present ones are recommended by JUCE.
