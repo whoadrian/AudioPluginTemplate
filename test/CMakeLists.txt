@@ -7,7 +7,10 @@ enable_testing()
 
 # Creates the test console application.
 add_executable(${PROJECT_NAME}
-        source/AudioPluginTest.cpp)
+        # py_generated=files dir=source extensions=h|cpp
+        source/AudioPluginTest.cpp
+        # /py_generated
+        )
 
 # Sets the necessary include directories: ours, JUCE's, and googletest's.
 target_include_directories(${PROJECT_NAME}

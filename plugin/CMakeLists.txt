@@ -51,13 +51,13 @@ target_sources(${PROJECT_NAME}
 # Sets the include directories of the plugin project.
 target_include_directories(${PROJECT_NAME}
         PUBLIC
-            include
             # py_generated=directories dir=include
+            include
             # /py_generated
 
         PRIVATE
-            source
             # py_generated=directories dir=source
+            source
             # /py_generated
         )
 

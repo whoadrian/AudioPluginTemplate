@@ -1,38 +1,38 @@
+import glob
 import os.path
 import pathlib
 
 
 # py_generated=directories : finds all directories within a root_dir and its subdirectory
 #
-# requires: dir=name (subdirectory)
+# optional: dir=name (subdirectory)
 def find_directories(root_dir: str, gen_params: dict, generated_lines: list):
-    target_dir = f"{root_dir}/{gen_params['dir']}"
-    for d in [d for d in os.listdir(f"{target_dir}") if not os.path.isfile(f"{target_dir}/{d}") if not d.startswith('.')]:
-        generated_lines.append(f"{target_dir}/{d}".replace(root_dir+"/", ""))
-        gen_params['dir'] += "/"+d
-        find_directories(root_dir, gen_params, generated_lines)
+    target_dir = root_dir
+    if 'dir' in gen_params:
+        target_dir += "/" + gen_params['dir']
+    for d in glob.glob(target_dir + "/**", recursive=True):
+        d = d.strip("/")
+        if not os.path.isfile(d):
+            generated_lines.append(d.replace(root_dir + "/", ""))
 
 
 # py_generated=files : finds all files within a root_dir and its sub_dir, with optional extensions
 #
-# requires: dir=name (subdirectory)
+# optional: dir=name (subdirectory)
 # optional: extensions=h|cpp (multiple extensions split by |)
 def find_files(root_dir: str, gen_params: dict, generated_lines: list):
-    target_dir = f"{root_dir}/{gen_params['dir']}"
-    extensions = ()
+    target_dir = root_dir
+    if 'dir' in gen_params:
+        target_dir += "/" + gen_params['dir']
+
     if 'extensions' in gen_params:
-        extensions = gen_params["extensions"].split("|")
-    for f in [f for f in os.listdir(f"{target_dir}") if not f.startswith('.')]:
-        if os.path.isfile(f"{target_dir}/{f}"):
-            file_extension = f.split('.')[1]
-            if len(extensions) > 0:
-                if file_extension in extensions:
-                    generated_lines.append(f"{target_dir}/{f}".replace(root_dir+"/", ""))
-            else:
-                generated_lines.append(f"{target_dir}/{f}".replace(root_dir+"/", ""))
-        else:
-            gen_params['dir'] += "/"+f
-            find_files(root_dir, gen_params, generated_lines)
+        extensions = gen_params['extensions'].split('|')
+        for ext in extensions:
+            for d in glob.glob(target_dir + f"/**/*.{ext}", recursive=True):
+                generated_lines.append(d.replace(root_dir + "/", ""))
+    else:
+        for d in glob.glob(target_dir + "/**/*.*", recursive=True):
+            generated_lines.append(d.replace(root_dir + "/", ""))
 
 
 # main parsing method, pass in the path of the CMakeLists.txt file with tags
