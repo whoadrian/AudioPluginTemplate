@@ -31,9 +31,12 @@ CPMAddPackage(
         "INSTALL_GTEST OFF"
         "gtest_force_shared_crt ON"
 )
-
 # This command allows running tests from the "build" folder (the one where CMake generates the project to).
 enable_testing()
+
+# Add all the targets configured in subdirectories
+add_subdirectory(plugin)
+add_subdirectory(test)
 
 # Enables all warnings and treats warnings as errors.
 # This needs to be added AFTER all the third-party dependencies.
@@ -42,9 +45,3 @@ if(MSVC)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
-
-# Adds all the targets configured in the "plugin" folder.
-add_subdirectory(plugin)
-
-# Adds all the targets configured in the "test" folder.
-add_subdirectory(test)
