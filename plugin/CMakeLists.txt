@@ -16,7 +16,7 @@ juce_add_plugin(${PROJECT_NAME}
         PLUGIN_MANUFACTURER_CODE Whoa
         PLUGIN_CODE WA01
 
-        FORMATS AU AUv3 VST3 Standalone
+        FORMATS VST3 Standalone
         COPY_PLUGIN_AFTER_BUILD TRUE
 
         VST3_CATEGORIES Fx Instrument Generator Stereo Synth Tools
