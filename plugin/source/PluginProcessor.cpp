@@ -173,27 +173,22 @@ juce::AudioProcessorEditor* WhoaAudioPluginProcessor::createEditor()
 //==============================================================================
 void WhoaAudioPluginProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
+	juce::ignoreUnused (destData);
+	
 	auto state = parameters.copyState();
 	std::unique_ptr<juce::XmlElement> xml (state.createXml());
 	copyXmlToBinary (*xml, destData);
-	
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
-    juce::ignoreUnused (destData);
 }
 
 void WhoaAudioPluginProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
+	juce::ignoreUnused (data, sizeInBytes);
+	
 	std::unique_ptr<juce::XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
 	
 	if (xmlState.get() != nullptr)
 		if (xmlState->hasTagName (parameters.state.getType()))
 			parameters.replaceState (juce::ValueTree::fromXml (*xmlState));
-	
-    // You should use this method to restore your parameters from this memory block,
-    // whose contents will have been created by the getStateInformation() call.
-    juce::ignoreUnused (data, sizeInBytes);
 }
 
 //==============================================================================

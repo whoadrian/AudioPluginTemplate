@@ -8,7 +8,7 @@ enable_testing()
 # Creates the test console application.
 add_executable(${PROJECT_NAME}
         # py_generated=files dir=source extensions=h|cpp
-        source/AudioPluginTest.cpp
+        source/PluginTests.cpp
         # /py_generated
         )
 

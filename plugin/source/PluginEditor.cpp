@@ -5,13 +5,14 @@
 WhoaAudioPluginEditor::WhoaAudioPluginEditor (WhoaAudioPluginProcessor& p, juce::AudioProcessorValueTreeState& vts)
     : AudioProcessorEditor (&p), processorRef (p), valueTreeState (vts)
 {
+	juce::ignoreUnused (processorRef);
+	
 	gainLabel.setText ("Gain", juce::dontSendNotification);
 	addAndMakeVisible (gainLabel);
 	
 	addAndMakeVisible (gainSlider);
 	gainAttachment.reset (new juce::AudioProcessorValueTreeState::SliderAttachment (valueTreeState, "gain", gainSlider));
-	
-    juce::ignoreUnused (processorRef);
+    
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (400, 300);
