@@ -11,6 +11,13 @@ set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
 # Downloads CPM if not already downloaded. CPM is an easy-to-use package manager nicely integrated with CMake.
 include(cmake/cpm.cmake)
 
+# Run the autofill python tool
+message(STATUS "Running Python CMake autofill tool")
+execute_process(COMMAND python cmake_autofill.py
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tools/
+        RESULT_VARIABLE autofill_result)
+message(STATUS "Python CMake autofill tool - Result: ${autofill_result}" )
+
 # This commands downloads AND configures JUCE. It sets up some variables, like JUCE_SOURCE_DIR.
 CPMAddPackage(
         NAME JUCE
