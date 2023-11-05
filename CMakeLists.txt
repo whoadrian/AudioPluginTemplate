@@ -25,7 +25,7 @@ message(STATUS "JUCE AudioPluginHost - Building...")
 if (MSVC)
     execute_process(
             WORKING_DIRECTORY ${LIB_DIR}/juce/extras/AudioPluginHost/Builds/VisualStudio2022/
-            COMMAND msbuild AudioPluginHost.sln /p:Configuration=Release
+            COMMAND msbuild AudioPluginHost.sln /p:Configuration=Release /p:Platform=x64
             RESULT_VARIABLE host_build_result
     )
     message(STATUS "JUCE AudioPluginHost - Build Result: ${host_build_result}" )
@@ -63,32 +63,3 @@ if(MSVC)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
-
-
-# Silences some deprecation warnings that (hopefully) will be fixed in a future release of JUCE.
-if (MSVC)
-    target_compile_definitions(${PROJECT_NAME}
-            PRIVATE
-            _SILENCE_CXX23_ALIGNED_STORAGE_DEPRECATION_WARNING)
-endif()
-
-# Colour our warnings and errors
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    add_compile_options (-fdiagnostics-color=always)
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    add_compile_options (-fcolor-diagnostics)
-endif ()
-
-# IDE Setup
-# In Visual Studio this command provides a nice grouping of source files in "filters".
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/..)
-# By default we don't want Xcode schemes to be made for modules, etc
-set(CMAKE_XCODE_GENERATE_SCHEME OFF)
-# Adds all the module sources so they appear correctly in the IDE
-set_property(GLOBAL PROPERTY USE_FOLDERS YES)
-# Create a /Modules directory in the IDE with the JUCE Module code
-option(JUCE_ENABLE_MODULE_SOURCE_GROUPS "Show all module sources in IDE projects" ON)
-# No, we don't want our source buried in extra nested folders
-# set_target_properties("${PROJECT_NAME}" PROPERTIES FOLDER "")
-# The Xcode source tree should uhhh, still look like the source tree, yo
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/Source PREFIX "" FILES ${SourceFiles})
