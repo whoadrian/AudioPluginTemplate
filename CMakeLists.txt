@@ -20,6 +20,24 @@ CPMAddPackage(
         SOURCE_DIR ${LIB_DIR}/juce
 )
 
+# Build the audio plugin host
+message(STATUS "JUCE AudioPluginHost - Building...")
+if (MSVC)
+    execute_process(
+            WORKING_DIRECTORY ${LIB_DIR}/juce/extras/AudioPluginHost/Builds/VisualStudio2022/
+            COMMAND msbuild AudioPluginHost.sln /p:Configuration=Release
+            RESULT_VARIABLE host_build_result
+    )
+    message(STATUS "JUCE AudioPluginHost - Build Result: ${host_build_result}" )
+else()
+    execute_process(
+            WORKING_DIRECTORY ${LIB_DIR}/juce/extras/AudioPluginHost/Builds/MacOSX/
+            COMMAND xcodebuild -configuration Release build
+            RESULT_VARIABLE host_build_result
+    )
+    message(STATUS "JUCE AudioPluginHost - Build Result: ${host_build_result}" )
+endif()
+
 # Adds googletest
 CPMAddPackage(
         NAME GOOGLETEST
