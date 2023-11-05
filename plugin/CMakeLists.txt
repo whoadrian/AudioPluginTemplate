@@ -5,8 +5,10 @@ project(WhoaAudioPlugin VERSION 0.1.0)
 
 # Adds a plugin target (that's basically what the Projucer does).
 juce_add_plugin(${PROJECT_NAME}
-        PRODUCT_NAME "My Plugin Title"
 
+        # Publishing
+        PRODUCT_NAME "My Plugin Title" # this will show up as the plugin file
+        PLUGIN_NAME "My Plugin Title" # this will show up in DAWs
         ICON_BIG assets/pluginIcon.jpg
         ICON_SMALL assets/pluginIcon.jpg
         BUNDLE_ID com.whoadrian.plugins
@@ -16,20 +18,19 @@ juce_add_plugin(${PROJECT_NAME}
         PLUGIN_MANUFACTURER_CODE Whoa
         PLUGIN_CODE WA01
 
+        # Builds
         FORMATS VST3 Standalone
         COPY_PLUGIN_AFTER_BUILD TRUE
 
+        # Plugin settings
         VST3_CATEGORIES Fx Instrument Generator Stereo Synth Tools
-        AU_MAIN_TYPE kAudioUnitType_MusicEffect
-
-        BACKGROUND_AUDIO_ENABLED TRUE
-        MICROPHONE_PERMISSION_ENABLED TRUE
         IS_SYNTH FALSE
+        IS_MIDI_EFFECT FALSE
         NEEDS_MIDI_INPUT TRUE
         NEEDS_MIDI_OUTPUT TRUE
-        IS_MIDI_EFFECT FALSE
+        BACKGROUND_AUDIO_ENABLED TRUE
+        MICROPHONE_PERMISSION_ENABLED TRUE
         EDITOR_WANTS_KEYBOARD_FOCUS TRUE
-
         IPHONE_SCREEN_ORIENTATIONS UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
         IPAD_SCREEN_ORIENTATIONS UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
         )
