@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(AudioPluginTest)
+project(AudioPluginGoogleTest)
 
 # Signals to CMake that we want to run tests from this directory.
 enable_testing()
