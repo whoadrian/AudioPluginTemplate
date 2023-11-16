@@ -11,7 +11,7 @@ def find_directories(root_dir: str, gen_params: dict, generated_lines: list):
     if 'dir' in gen_params:
         target_dir += "/" + gen_params['dir']
     for d in glob.glob(target_dir + "/**", recursive=True):
-        d = d.strip("/")
+        d = d.replace("\\", "/").strip("/")
         if not os.path.isfile(d):
             generated_lines.append(d.replace(root_dir + "/", ""))
 
@@ -29,10 +29,10 @@ def find_files(root_dir: str, gen_params: dict, generated_lines: list):
         extensions = gen_params['extensions'].split('|')
         for ext in extensions:
             for d in glob.glob(target_dir + f"/**/*.{ext}", recursive=True):
-                generated_lines.append(d.replace(root_dir + "/", ""))
+                generated_lines.append(d.replace("\\", "/").replace(root_dir + "/", ""))
     else:
         for d in glob.glob(target_dir + "/**/*.*", recursive=True):
-            generated_lines.append(d.replace(root_dir + "/", ""))
+            generated_lines.append(d.replace("\\", "/").replace(root_dir + "/", ""))
 
 
 # main parsing method, pass in the path of the CMakeLists.txt file with tags
