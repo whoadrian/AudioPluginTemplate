@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake-lib-${CMAKE_BUILD_TYPE})
 
 # Downloads CPM if not already downloaded. CPM is an easy-to-use package manager nicely integrated with CMake.
-include(cmake/cpm.cmake)
+include(tools/cpm.cmake)
 
 # Run the autofill python tool
 message(STATUS "Running Python CMake autofill tool")
