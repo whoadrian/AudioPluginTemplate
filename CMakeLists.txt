@@ -6,7 +6,7 @@ project(WhoaAudioPluginTemplateProject)
 set(CMAKE_CXX_STANDARD 20)
 
 # Third party libraries download location
-set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
+set(LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake-lib-${CMAKE_BUILD_TYPE})
 
 # Downloads CPM if not already downloaded. CPM is an easy-to-use package manager nicely integrated with CMake.
 include(cmake/cpm.cmake)

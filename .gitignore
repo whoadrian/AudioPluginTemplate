@@ -12,7 +12,6 @@ _deps
 
 # General folders
 build/
-libs/
 venv/
 Install/*
 Testing
@@ -24,6 +23,9 @@ Testing
 cmake-build-debug
 cmake-build-release
 cmake-build-relwithdebinfo
+cmake-lib-Debug
+cmake-lib-Release
+cmake-lib-Relwithdebinfo
 
 # iOS Xcode generated project
 build-ios
