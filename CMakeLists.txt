@@ -21,8 +21,8 @@ message(STATUS "Python CMake autofill tool - Result: ${autofill_result}" )
 # This commands downloads AND configures JUCE. It sets up some variables, like JUCE_SOURCE_DIR.
 CPMAddPackage(
         NAME JUCE
-        GIT_TAG 7.0.8
-        VERSION 7.0.8
+        GIT_TAG 7.0.10
+        VERSION 7.0.10
         GITHUB_REPOSITORY juce-framework/JUCE
         SOURCE_DIR ${LIB_DIR}/juce
 )
@@ -45,23 +45,8 @@ else()
     message(STATUS "JUCE AudioPluginHost - Build Result: ${host_build_result}" )
 endif()
 
-# Adds googletest
-CPMAddPackage(
-        NAME GOOGLETEST
-        GITHUB_REPOSITORY google/googletest
-        GIT_TAG v1.14.0
-        VERSION 1.14.0
-        SOURCE_DIR ${LIB_DIR}/googletest
-        OPTIONS
-        "INSTALL_GTEST OFF"
-        "gtest_force_shared_crt ON"
-)
-# This command allows running tests from the "build" folder (the one where CMake generates the project to).
-enable_testing()
-
 # Add all the targets configured in subdirectories
 add_subdirectory(plugin)
-add_subdirectory(test)
 
 # Enables all warnings and treats warnings as errors.
 # This needs to be added AFTER all the third-party dependencies.
